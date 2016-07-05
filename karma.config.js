@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = function (config) {
   config.set({
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
     coverageReporter: {
       reporters: [
         { type: 'html', subdir: 'html' },

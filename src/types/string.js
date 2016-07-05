@@ -25,19 +25,27 @@ export class StringSchemaType extends SchemaType {
   }
 
   minValidate(value) {
-    return this.isEmpty(value) || value.length >= this.options.minlength;
+    if (value && value.length < this.options.minlength) {
+      return `invalid value: ${value} is less than minimal length ${this.options.minlength}`;
+    }
   }
 
   maxValidate(value) {
-    return this.isEmpty(value) || value.length <= this.options.maxlength;
+    if (value && value.length > this.options.maxlength) {
+      return `invalid value: ${value} is more than maximum length ${this.options.maxlength}`;
+    }
   }
 
   choicesValidate(value) {
     let choices = this.options.choices;
-    return this.isEmpty(value) || choices.length > 0 && choices.indexOf(value) > -1
+    if (choices.indexOf(value) === -1) {
+      return `invalid value: ${value}`;
+    }
   }
 
   checkRequired(value) {
-    return typeof value === 'string' && value.length > 0;
+    if (!value || value.length < 1) {
+      return `${this.field.name} is required`;
+    }
   }
 }

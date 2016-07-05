@@ -18,7 +18,7 @@ describe('number tests', () => {
     spec.schema = new Schema({
       posts: {
         required: true,
-        type:     String,
+        type:     Number,
         max:      10,
         min:      3
       },
@@ -38,69 +38,23 @@ describe('number tests', () => {
 
   beforeEach(() => {
     let model = spec.ResourceModel('https://example.org/api/test/:id', spec.schema);
-    instance = new model({posts: 5});
+    instance = new model(
+      {
+        posts: 5,
+        type: 2
+      });
   });
 
   describe('required', () => {
 
     it('Will invalidate required field for null', () => {
       var validationResults = instance.validate();
-      expect(validationResults.posts).not.toBeDefined();
+      expect(validationResults.posts).toBeDefined();
       instance.posts = null;
       validationResults = instance.validate();
-      expect(validationResults.posts).toBeDefined();
+      expect(validationResults.posts).not.toBeDefined();
     });
 
-    it('Will invalidate required for empty string', () => {
-      var validationResults = instance.validate();
-      expect(validationResults.name).not.toBeDefined();
-      instance.name = ' ';
-      validationResults = instance.validate();
-      expect(validationResults.name).toBeDefined();
-    });
-
-    it('0 meets required demands', () => {
-      var validationResults = instance.validate();
-      expect(validationResults.name).not.toBeDefined();
-      instance.name = 0;
-      validationResults = instance.validate();
-      expect(validationResults.name).toBeDefined();
-    });
-  });
-
-  describe('max', () => {
-    it('Will validate max length', () => {
-      var validationResults = instance.validate();
-      expect(validationResults.name).not.toBeDefined();
-      instance.name = 'Longer and therefore invalid name';
-      validationResults = instance.validate();
-      expect(validationResults.name).toBeDefined();
-    });
-  });
-
-  describe('min', () => {
-    it('Will validate max length', () => {
-      var validationResults = instance.validate();
-      expect(validationResults.name).not.toBeDefined();
-      instance.name = 'Longer and therefore invalid name';
-      validationResults = instance.validate();
-      expect(validationResults.name).toBeDefined();
-    });
-  });
-
-  describe('choices', () => {
-    it('Will validate choices', () => {
-      var validationResults = instance.validate();
-      expect(validationResults.job).not.toBeDefined();
-
-      instance.job = 'designer';
-      validationResults = instance.validate();
-      expect(validationResults.job).not.toBeDefined();
-
-      instance.job = 'business';
-      validationResults = instance.validate();
-      expect(validationResults.job).toBeDefined();
-    });
   });
 
 

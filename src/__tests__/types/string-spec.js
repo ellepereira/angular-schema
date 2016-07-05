@@ -4,7 +4,7 @@ import Schema from "schema"
 import AngularSchema from "angular-schema"
 
 
-describe('angular-schema tests', () => {
+describe('angular-schema string tests', () => {
   'use strict';
 
   let module = angular.mock.module;
@@ -21,10 +21,6 @@ describe('angular-schema tests', () => {
         type:      String,
         maxlength: 10,
         minlength: 3
-      },
-      job: {
-        type: String,
-        choices: ['developer', 'designer']
       }
     });
 
@@ -76,6 +72,7 @@ describe('angular-schema tests', () => {
         expect(validationResults.name).not.toBeDefined();
         instance.name = 'Longer and therefore invalid name';
         validationResults = instance.validate();
+        console.log(validationResults);
         expect(validationResults.name).toBeDefined();
       });
     });

@@ -8,11 +8,11 @@ export class NumberSchemaType extends SchemaType {
     super(field, options);
 
     if (options.min) {
-      this.validators.push(this.minValidate);
+      this.validators.set('min', this.minValidate);
     }
 
     if (options.max) {
-      this.validators.push(this.maxValidate);
+      this.validators.set('max', this.maxValidate);
     }
   }
 
@@ -27,11 +27,15 @@ export class NumberSchemaType extends SchemaType {
   }
 
   minValidate() {
-    return this.value >= this.options.min;
+    if (this.value < this.options.min) {
+      return `invalid value: ${this.value} is less than minimal value ${this.options.min}`;
+    }
   }
 
   maxValidate() {
-    return this.value <= this.options.max;
+    if (this.value > this.options.max) {
+      return `invalid value: ${this.value} is more than maximum value ${this.options.max}`;
+    }
   }
 
   checkRequired(value) {
